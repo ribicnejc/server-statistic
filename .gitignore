@@ -10,7 +10,7 @@ phpunit.xml
 
 # ignore credentials
 /src/settings.php
-
+/src/settings.php
 
 # ignore tests
 /tests/
