@@ -4,3 +4,13 @@
 
 # ignore lock file since we have no extra dependencies
 composer.lock
+docker-compose.yml
+phpunit.xml
+
+
+# ignore credentials
+/src/settings.php
+
+
+# ignore tests
+/tests/

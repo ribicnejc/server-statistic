@@ -24,21 +24,7 @@ return [
                 'host' => 'localhost',
                 'user' => 'root',
                 'pass' => '',
-                'name' => 'server_statistic'
-            ],
-            //TiddlyLabs
-            1 => [
-                'host' => 'localhost',
-                'user' => 'root',
-                'pass' => 'ribic',
-                'name' => 'server_statistic'
-            ],
-            //BerryPi
-            2 => [
-                'host' => 'localhost',
-                'user' => 'phpmyadmin',
-                'pass' => 'ribic',
-                'name' => 'server_statistic'
+                'name' => 'database_name'
             ],
         ],
     ],
