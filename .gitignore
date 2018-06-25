@@ -13,3 +13,10 @@ phpunit.xml
 
 # ignore tests
 /tests/
+
+
+# ignore sql init script
+/src/database/*
+
+# project files
+.idea/

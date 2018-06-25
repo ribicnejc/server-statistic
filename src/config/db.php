@@ -15,6 +15,8 @@ class db
     private $dbpass = null;
     private $dbname = null;
 
+//    private  $settings = require '../settings.php';
+
     // Connect
     public function connect()
     {
@@ -25,7 +27,7 @@ class db
         return $dbConnection;
     }
     private function setupCredentials() {
-        $settings = require __DIR__ . '../settings.php';
+        $settings = require __DIR__ . '/../settings.php';
 
         $this->deploymentTarget = $settings["settings"]["deployment_target"];
         $this->dbhost = $settings["settings"]["database_credentials"][$this->deploymentTarget]["host"];

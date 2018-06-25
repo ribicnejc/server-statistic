@@ -32,7 +32,8 @@ require __DIR__ . '/../src/middleware.php';
 require __DIR__ . '/../src/routes.php';
 
 // Register own statistic collector
-//require __DIR__ . '/../src/routes'
+require __DIR__ . '/../src/config/db.php';
+require __DIR__ . '/../src/routes/collector.php';
 
 // Run app
 $app->run();
