@@ -15,7 +15,7 @@ $app->get('/collect/request', function (Request $request, Response $response) {
     $HTTP_UPGRADE_INSECURE_REQUESTS = $_SERVER['HTTP_UPGRADE_INSECURE_REQUESTS'];
     $HTTP_CONNECTION = $_SERVER['HTTP_CONNECTION'];
     $HTTP_HOST = $_SERVER['HTTP_HOST'];
-    $REDIRECT_STATUS = $_SERVER['REDIRECT_STATUS'];
+    $REDIRECT_STATUS = "none";//$_SERVER['REDIRECT_STATUS'];
     $SERVER_NAME = $_SERVER['SERVER_NAME'];
     $SERVER_PORT = $_SERVER['SERVER_PORT'];
     $SERVER_ADDR = $_SERVER['SERVER_ADDR'];
@@ -38,7 +38,7 @@ $app->get('/collect/request', function (Request $request, Response $response) {
 //    $FCGI_ROLE = $_SERVER['FCGI_ROLE'];
     $PHP_SELF = $_SERVER['PHP_SELF'];
     $REQUEST_TIME_FLOAT = $_SERVER['REQUEST_TIME_FLOAT'];
-    $REQUEST_TIME = $_SERVER['REQUEST_TIME'];
+    $REQUEST_TIME = date('Y/m/d H:i:s',date_timestamp_get(date_create()));
 
 
 //    TODO timestamp MUST BE... or at least convert float to date and time string
@@ -104,7 +104,7 @@ $app->get('/collect/request', function (Request $request, Response $response) {
         '$SCRIPT_FILENAME',
         '$PHP_SELF',
         $REQUEST_TIME_FLOAT,
-        $REQUEST_TIME
+        '$REQUEST_TIME'
         );";
 
 //    $sql = "INSERT INTO customers (first_name, last_name, phone, email, address, city, state)
