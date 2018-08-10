@@ -5,9 +5,12 @@ use Slim\Http\Response;
 
 
 // Collect request data
+//$app->get("/collect/position")
+
+//TODO this is the link for scraping geolocation https://www.geoiptool.com/en/?ip=46.123.243.7A8
+
 $app->get('/collect/request', function (Request $request, Response $response) {
-//    $USER = $_SERVER['USER'];
-//    $HOME = $_SERVER['HOME'];
+
     $HTTP_ACCEPT_LANGUAGE = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
     $HTTP_ACCEPT_ENCODING = $_SERVER['HTTP_ACCEPT_ENCODING'];
     $HTTP_ACCEPT = $_SERVER['HTTP_ACCEPT'];
@@ -26,30 +29,14 @@ $app->get('/collect/request', function (Request $request, Response $response) {
     $REQUEST_SCHEME = $_SERVER['REQUEST_SCHEME'];
     $SERVER_PROTOCOL = $_SERVER['SERVER_PROTOCOL'];
     $DOCUMENT_ROOT = $_SERVER['DOCUMENT_ROOT'];
-//    $DOCUMENT_URI = $_SERVER['DOCUMENT_URI'];
     $REQUEST_URI = $_SERVER['REQUEST_URI'];
     $SCRIPT_NAME = $_SERVER['SCRIPT_NAME'];
-//    $CONTENT_LENGTH = $_SERVER['CONTENT_LENGTH'];
-//    $CONTENT_TYPE = $_SERVER['CONTENT_TYPE'];
     $REQUEST_METHOD = $_SERVER['REQUEST_METHOD'];
     $QUERY_STRING = $_SERVER['QUERY_STRING'];
     $SCRIPT_FILENAME = $_SERVER['SCRIPT_FILENAME'];
-//    $PATH_INFO = $_SERVER['PATH_INFO'];
-//    $FCGI_ROLE = $_SERVER['FCGI_ROLE'];
     $PHP_SELF = $_SERVER['PHP_SELF'];
     $REQUEST_TIME_FLOAT = $_SERVER['REQUEST_TIME_FLOAT'];
     $REQUEST_TIME = date('Y/m/d H:i:s',date_timestamp_get(date_create()));
-
-
-//    TODO timestamp MUST BE... or at least convert float to date and time string
-
-    $first_name = $request->getParam('first_name');
-    $last_name = $request->getParam("last_name");
-    $phone = $request->getParam("phone");
-    $email = $request->getParam("email");
-    $address = $request->getParam("address");
-    $city = $request->getParam("city");
-    $state = $request->getParam("state");
 
     $sql = "INSERT INTO `test_application`( 
         `HTTP_ACCEPT_LANGUAGE`, 
@@ -106,28 +93,14 @@ $app->get('/collect/request', function (Request $request, Response $response) {
         $REQUEST_TIME_FLOAT,
         '$REQUEST_TIME'
         );";
-
-//    $sql = "INSERT INTO customers (first_name, last_name, phone, email, address, city, state)
-//    VALUES (:first_name, :last_name, :phone, :email, :address, :city, :state)";
     try {
         // Get DB Object
         $db = new db();
         //Connect
         $db = $db->connect();
         $stmt = $db->prepare($sql);
-//        $stmt->bindParam(':first_name', $first_name);
-//        $stmt->bindParam(':last_name', $last_name);
-//        $stmt->bindParam(':phone', $phone);
-//        $stmt->bindParam(':email', $email);
-//        $stmt->bindParam(':address', $address);
-//        $stmt->bindParam(':city', $city);
-//        $stmt->bindParam(':state', $state);
         $stmt->execute();
-
-//        echo $sql;
-
-//        echo '{"notice": {"text": "Customer Added"}}';
     } catch (PDOException $e) {
-//        echo '{"error": {"text": ' . $e->getMessage() . '}}';
+
     }
 });
