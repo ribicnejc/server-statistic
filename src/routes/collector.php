@@ -34,15 +34,20 @@ $app->get('/collect/request/{meta_data}', function (Request $request, Response $
     $REQUEST_TIME_FLOAT = $_SERVER['REQUEST_TIME_FLOAT'];
     $REQUEST_TIME = date('Y/m/d H:i:s', date_timestamp_get(date_create()));
 
-    $response = Unirest\Request::get("https://apility-io-ip-geolocation-v1.p.rapidapi.com/77.111.11.122",
+    $response = Unirest\Request::get("https://apility-io-ip-geolocation-v1.p.rapidapi.com/$REMOTE_ADDR",
         array(
             "X-RapidAPI-Key" => "UTPJYeCzZmmshR7bsAyRUYQUdc5Hp11SOBLjsnBOxncKjeEYut",
             "Accept" => "application/json"
         )
     );
     try {
-        $LAT = $response->body->ip->latitude;
-        $LNG = $response->body->ip->longitude;
+        if ($response->body->ip->hostname != "") {
+            $LAT = $response->body->ip->latitude;
+            $LNG = $response->body->ip->longitude;
+        } else {
+            $LAT = 0.000;
+            $LNG = 0.000;
+        }
     } catch (Exception $e) {
         $LAT = null;
         $LNG = null;
