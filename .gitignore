@@ -15,7 +15,6 @@ phpunit.xml
 
 
 # ignore sql init script
-/src/database/*
 
 # project files
 .idea/
