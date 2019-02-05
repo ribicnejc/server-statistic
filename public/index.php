@@ -34,6 +34,7 @@ require __DIR__ . '/../src/routes.php';
 // Register own statistic collector
 require __DIR__ . '/../src/config/db.php';
 require __DIR__ . '/../src/routes/collector.php';
+require __DIR__ . '/../src/models/Statistic.php';
 
 // Run app
 $app->run();

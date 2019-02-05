@@ -4,13 +4,21 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 
 
-// Collect request data
-//$app->get("/collect/position")
-
-//TODO this is the link for scraping geolocation https://www.geoiptool.com/en/?ip=46.123.243.7A8
-
-$app->get('/collect/request', function (Request $request, Response $response) {
-
+$app->get('/collect/request/{meta_data}', function (Request $request, Response $response, $args) {
+    $META_DATA = $args['meta_data'];
+    $response = Unirest\Request::get("https://apility-io-ip-geolocation-v1.p.rapidapi.com/77.111.11.122",
+        array(
+            "X-RapidAPI-Key" => "UTPJYeCzZmmshR7bsAyRUYQUdc5Hp11SOBLjsnBOxncKjeEYut",
+            "Accept" => "application/json"
+        )
+    );
+    try {
+        $LAT = $response->body->ip->latitude;
+        $LNG = $response->body->ip->longitude;
+    } catch (Exception $e) {
+        $LAT = null;
+        $LNG = null;
+    }
     $HTTP_ACCEPT_LANGUAGE = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
     $HTTP_ACCEPT_ENCODING = $_SERVER['HTTP_ACCEPT_ENCODING'];
     $HTTP_ACCEPT = $_SERVER['HTTP_ACCEPT'];
@@ -36,71 +44,38 @@ $app->get('/collect/request', function (Request $request, Response $response) {
     $SCRIPT_FILENAME = $_SERVER['SCRIPT_FILENAME'];
     $PHP_SELF = $_SERVER['PHP_SELF'];
     $REQUEST_TIME_FLOAT = $_SERVER['REQUEST_TIME_FLOAT'];
-    $REQUEST_TIME = date('Y/m/d H:i:s',date_timestamp_get(date_create()));
+    $REQUEST_TIME = date('Y/m/d H:i:s', date_timestamp_get(date_create()));
 
-    $sql = "INSERT INTO `test_application`( 
-        `HTTP_ACCEPT_LANGUAGE`, 
-        `HTTP_ACCEPT_ENCODING`, 
-        `HTTP_ACCEPT`, 
-        `HTTP_USER_AGENT`, 
-        `HTTP_UPGRADE_INSECURE_REQUESTS`, 
-        `HTTP_CONNECTION`, 
-        `HTTP_HOST`, 
-        `REDIRECT_STATUS`, 
-        `SERVER_NAME`, 
-        `SERVER_PORT`, 
-        `SERVER_ADDR`, 
-        `REMOTE_PORT`, 
-        `REMOTE_ADDR`, 
-        `SERVER_SOFTWARE`, 
-        `GATEWAY_INTERFACE`, 
-        `REQUEST_SCHEME`, 
-        `SERVER_PROTOCOL`, 
-        `DOCUMENT_ROOT`, 
-        `REQUEST_URI`, 
-        `SCRIPT_NAME`, 
-        `REQUEST_METHOD`, 
-        `QUERY_STRING`, 
-        `SCRIPT_FILENAME`,  
-        `PHP_SELF`, 
-        `REQUEST_TIME_FLOAT`, 
-        `REQUEST_TIME`) 
-        VALUES (
-        '$HTTP_ACCEPT_LANGUAGE',
-        '$HTTP_ACCEPT_ENCODING',
-        '$HTTP_ACCEPT',
-        '$HTTP_USER_AGENT',
-        '$HTTP_UPGRADE_INSECURE_REQUESTS',
-        '$HTTP_CONNECTION',
-        '$HTTP_HOST',
-        '$REDIRECT_STATUS',
-        '$SERVER_NAME',
-        '$SERVER_PORT',
-        '$SERVER_ADDR',
-        '$REMOTE_PORT',
-        '$REMOTE_ADDR',
-        '$SERVER_SOFTWARE',
-        '$GATEWAY_INTERFACE',
-        '$REQUEST_SCHEME',
-        '$SERVER_PROTOCOL',
-        '$DOCUMENT_ROOT',
-        '$REQUEST_URI',
-        '$SCRIPT_NAME',
-        '$REQUEST_METHOD',
-        '$QUERY_STRING',
-        '$SCRIPT_FILENAME',
-        '$PHP_SELF',
+
+    $stat = new statistic();
+    $stat->setData($HTTP_ACCEPT_LANGUAGE,
+        $HTTP_ACCEPT_ENCODING,
+        $HTTP_ACCEPT,
+        $HTTP_USER_AGENT,
+        $HTTP_UPGRADE_INSECURE_REQUESTS,
+        $HTTP_CONNECTION,
+        $HTTP_HOST,
+        $REDIRECT_STATUS,
+        $SERVER_NAME,
+        $SERVER_PORT,
+        $SERVER_ADDR,
+        $REMOTE_PORT,
+        $REMOTE_ADDR,
+        $SERVER_SOFTWARE,
+        $GATEWAY_INTERFACE,
+        $REQUEST_SCHEME,
+        $SERVER_PROTOCOL,
+        $DOCUMENT_ROOT,
+        $REQUEST_URI,
+        $SCRIPT_NAME,
+        $REQUEST_METHOD,
+        $QUERY_STRING,
+        $SCRIPT_FILENAME,
+        $PHP_SELF,
         $REQUEST_TIME_FLOAT,
-        '$REQUEST_TIME'
-        );";
-    try {
-        // Get DB Object
-        $db = new db();
-        //Connect
-        $db = $db->connect();
-        $stmt = $db->prepare($sql);
-        $stmt->execute();
-    } catch (PDOException $e) {
-
-    }
+        $REQUEST_TIME,
+        $LAT,
+        $LNG,
+        $META_DATA);
+    $stat->insertData();
 });
