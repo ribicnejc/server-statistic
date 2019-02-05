@@ -162,8 +162,7 @@ class statistic
         '$this->REQUEST_TIME',
          $this->LAT,
          $this->LNG,
-        '$this->META_DATA',
-        );";
+        '$this->META_DATA');";
 
         try {
             $db = new db();
