@@ -41,7 +41,7 @@ $app->get('/collect/request/{meta_data}', function (Request $request, Response $
         )
     );
     try {
-        if ($response->body->ip->hostname != "") {
+        if ($response->body->ip->as != "") {
             $LAT = $response->body->ip->latitude;
             $LNG = $response->body->ip->longitude;
         } else {
@@ -49,8 +49,8 @@ $app->get('/collect/request/{meta_data}', function (Request $request, Response $
             $LNG = 0.000;
         }
     } catch (Exception $e) {
-        $LAT = null;
-        $LNG = null;
+        $LAT = 0.001;
+        $LNG = 0.001;
     }
 
 
