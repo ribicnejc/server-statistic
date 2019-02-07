@@ -37,6 +37,9 @@ class statistic
     private $LAT = null;
     private $LNG = null;
     private $META_DATA = null;
+    private $META_DATA_KEY = null;
+
+    private $META_DATA_UPDATE = null;
 
     public function setData(
         $HTTP_ACCEPT_LANGUAGE,
@@ -67,7 +70,8 @@ class statistic
         $REQUEST_TIME,
         $LAT,
         $LNG,
-        $META_DATA
+        $META_DATA,
+        $META_DATA_KEY
     )
     {
         $this->HTTP_ACCEPT_LANGUAGE = $HTTP_ACCEPT_LANGUAGE;
@@ -99,7 +103,25 @@ class statistic
         $this->LAT = $LAT;
         $this->LNG = $LNG;
         $this->META_DATA = $META_DATA;
+        $this->META_DATA_KEY = $META_DATA_KEY;
     }
+
+    public function setUpdateData($META_UPDATE_DATA){
+        $this->META_DATA_UPDATE = $META_UPDATE_DATA;
+    }
+
+    public function updateData(){
+        $sql = "UPDATE `test_application` SET META_DATA = '$this->META_DATA_UPDATE' WHERE META_DATA = '$this->META_DATA_KEY'";
+        try {
+            $db = new db();
+            $db = $db->connect();
+            $stmt = $db->prepare($sql);
+            $stmt->execute();
+        } catch (PDOException $e) {
+            print_r($e);
+        }
+    }
+
 
     public function insertData()
     {
