@@ -6,7 +6,7 @@
  * Time: 17:14
  */
 
-class statistic
+class Statistic
 {
     private $HTTP_ACCEPT_LANGUAGE = null;
     private $HTTP_ACCEPT_ENCODING = null;
@@ -106,8 +106,9 @@ class statistic
         $this->META_DATA_KEY = $META_DATA_KEY;
     }
 
-    public function setUpdateData($META_UPDATE_DATA){
+    public function setUpdateData($META_UPDATE_DATA, $META_DATA_KEY){
         $this->META_DATA_UPDATE = $META_UPDATE_DATA;
+        $this->META_DATA_KEY = $META_DATA_KEY;
     }
 
     public function updateData(){

@@ -3,9 +3,18 @@
 use Slim\Http\Request;
 use Slim\Http\Response;
 
+//http://localhost/server-statistic/public/statistic/collect/choice/1234?meta_data=Nejc
+$app->get('/statistic/collect/choice/{meta_key}', function (Request $request, Response $response, $args) {
+    $meta_key = $args['meta_key'];
+    $meta_data = $request->getQueryParam("meta_data");
+    $stat = new Statistic();
+    $stat->setUpdateData($meta_data, $meta_key);
+    $stat->updateData();
+});
 
-$app->get('/collect/request/{meta_data}', function (Request $request, Response $response, $args) {
-    $META_DATA = $args['meta_data'];
+//http://localhost/server-statistic/public/statistic/collect/request/1234
+$app->get('/statistic/collect/request/{meta_key}', function (Request $request, Response $response, $args) {
+    $META_DATA = $args['meta_key'];
 
     $HTTP_ACCEPT_LANGUAGE = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
     $HTTP_ACCEPT_ENCODING = $_SERVER['HTTP_ACCEPT_ENCODING'];
@@ -54,7 +63,7 @@ $app->get('/collect/request/{meta_data}', function (Request $request, Response $
     }
 
 
-    $stat = new statistic();
+    $stat = new Statistic();
     $stat->setData($HTTP_ACCEPT_LANGUAGE,
         $HTTP_ACCEPT_ENCODING,
         $HTTP_ACCEPT,
@@ -83,6 +92,7 @@ $app->get('/collect/request/{meta_data}', function (Request $request, Response $
         $REQUEST_TIME,
         $LAT,
         $LNG,
+        $META_DATA,
         $META_DATA);
     $stat->insertData();
 });
