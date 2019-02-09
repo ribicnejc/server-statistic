@@ -36,5 +36,6 @@ require __DIR__ . '/../src/config/db.php';
 require __DIR__ . '/../src/routes/collector.php';
 require __DIR__ . '/../src/models/Statistic.php';
 
+header('Access-Control-Allow-Origin: *');
 // Run app
 $app->run();
