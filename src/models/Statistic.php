@@ -106,20 +106,39 @@ class Statistic
         $this->META_DATA_KEY = $META_DATA_KEY;
     }
 
-    public function setUpdateData($META_UPDATE_DATA, $META_DATA_KEY){
+    public function setUpdateData($META_UPDATE_DATA, $META_DATA_KEY)
+    {
         $this->META_DATA_UPDATE = $META_UPDATE_DATA;
         $this->META_DATA_KEY = $META_DATA_KEY;
     }
 
-    public function updateData(){
+    public function updateData()
+    {
         $sql = "UPDATE `test_application` SET META_DATA = '$this->META_DATA_UPDATE' WHERE META_DATA = '$this->META_DATA_KEY'";
         try {
             $db = new db();
             $db = $db->connect();
             $stmt = $db->prepare($sql);
             $stmt->execute();
+            $db = null;
         } catch (PDOException $e) {
             print_r($e);
+        }
+    }
+
+    public function getAllStatistic()
+    {
+        $sql = "SELECT ID, REMOTE_ADDR, REQUEST_TIME, LAT, LNG, META_DATA FROM `test_application`";
+        try {
+            $db = new db();
+            $db = $db->connect();
+            $stmt = $db->query($sql);
+            $statistics = $stmt->fetchAll(PDO::FETCH_OBJ);
+            $db = null;
+            return $statistics;
+        } catch (PDOException $e) {
+            print_r($e);
+            return null;
         }
     }
 
@@ -192,6 +211,7 @@ class Statistic
             $db = $db->connect();
             $stmt = $db->prepare($sql);
             $stmt->execute();
+            $db = null;
         } catch (PDOException $e) {
             print_r($e);
         }
