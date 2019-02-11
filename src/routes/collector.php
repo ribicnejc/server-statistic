@@ -3,6 +3,12 @@
 use Slim\Http\Request;
 use Slim\Http\Response;
 
+//http://localhost/server-statistic/public/statistic/
+$app->get('/statistic/', function (Request $request, Response $response, $args) {
+    $statistics = new Statistic();
+    echo json_encode($statistics->getAllStatistic());
+});
+
 //http://localhost/server-statistic/public/statistic/collect/choice/1234?meta_data=Nejc
 $app->get('/statistic/collect/choice/{meta_key}', function (Request $request, Response $response, $args) {
     $meta_key = $args['meta_key'];
